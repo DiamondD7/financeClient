@@ -1,0 +1,90 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,700;1,400&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: #2f2f2f;
+  font-family: "DM Sans", sans-serif;
+}
+
+.contain {
+  display: flex;
+}
+
+.header-transaction {
+  color: #2f2f2f;
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+
+.card-main-container {
+  /* background-color: red; */
+  width: 600px;
+  height: 800px;
+
+  margin: 70px 0 0 50px;
+}
+
+.card-container {
+  /* background-color: blue; */
+  /* margin-left: 20px; */
+  text-align: center;
+  display: block;
+}
+
+.input-name {
+  padding: 10px;
+  width: 350px;
+  border-radius: 10px;
+
+  font-size: 20px;
+}
+
+.input-type {
+  margin-top: 30px;
+  padding: 10px;
+  width: 350px;
+  border-radius: 10px;
+  font-size: 20px;
+}
+
+.input-amount {
+  margin-top: 30px;
+  padding: 10px;
+  width: 350px;
+  border-radius: 10px;
+  font-size: 20px;
+}
+
+.btn-confirm {
+  margin: 70px 0 20px 0;
+  width: 350px;
+  padding: 10px;
+  font-size: 20px;
+  border-radius: 10px;
+  background-color: #6bffb8;
+  border: none;
+}
+
+.card-second-container {
+  text-align: center;
+  border-top: 1px solid #2f2f2f;
+  /* background-color: greenyellow; */
+  width: 600px;
+  height: 375px;
+  overflow-y: auto;
+}
+
+.history {
+  display: inline-block;
+  font-size: 24px;
+  margin: 20px 0 0 10px;
+  text-align: center;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 8px 15px -5px,
+    rgba(0, 0, 0, 0.3) 0px 1px 5px -8px;
+
+  width: 350px;
+  border: 1px solid;
+  border-radius: 5px;
+}

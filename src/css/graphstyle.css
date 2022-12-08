@@ -1,0 +1,35 @@
+.graph-container {
+  display: flex;
+  /* background-color: red; */
+  width: 700px;
+  height: 450px;
+  border-left: 1px solid #2f2f2f;
+  border-bottom: 1px solid #2f2f2f;
+
+  padding: 0 0 0 10px;
+  margin: 40px 0 0 200px;
+}
+
+.bar-1 {
+  align-self: flex-end;
+  background-color: #6bffb8;
+  width: 100px;
+  height: 80%;
+  margin-left: 100px;
+}
+
+.bar-2 {
+  align-self: flex-end;
+  background-color: #ff6b6b;
+  width: 100px;
+  margin-left: 80px;
+  height: 90%;
+}
+
+.bar-3 {
+  align-self: flex-end;
+  background-color: yellow;
+  width: 100px;
+  margin-left: 80px;
+  height: 20%;
+}
