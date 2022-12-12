@@ -29,9 +29,21 @@ const Home = () => {
     }
     total = total + items[i].Amount;
   }
-  console.log("saving: ", savingTotal);
-  console.log("exp: ", expenseTotal);
-  console.log("totalzzzy", total);
+
+  const clearAll = () => {
+    fetch(BASE_URL + "api/financetracker/deleteAll", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then((res) => console.log(res))
+      .then((data) => {
+        console.log(data);
+        window.location.reload();
+      });
+  };
 
   return (
     <div>
@@ -63,7 +75,9 @@ const Home = () => {
           <div className="card-second-container">
             <h2>History</h2>
 
-            <button className="delete-all-btn">Clear</button>
+            <button className="delete-all-btn" onClick={clearAll}>
+              Clear
+            </button>
 
             {items.map((i, index) => (
               <div className="history-cont" key={index}>
@@ -92,7 +106,7 @@ const Home = () => {
                       ? { borderColor: "#FF6B6B" }
                       : i.Type === "Investment"
                       ? { borderColor: "yellow" }
-                      : ""
+                      : { borderColor: "transparent" }
                   }
                 >
                   {i.Name} - {i.Type}
