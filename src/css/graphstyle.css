@@ -10,12 +10,16 @@
   margin: 40px 0 0 200px;
 }
 
+.conz {
+  display: flex;
+}
+
 .bar-1 {
   align-self: flex-end;
   background-color: #6bffb8;
   width: 100px;
-  height: 80%;
   margin-left: 100px;
+  transition: all 1s ease-in-out;
 }
 
 .bar-2 {
@@ -23,7 +27,7 @@
   background-color: #ff6b6b;
   width: 100px;
   margin-left: 80px;
-  height: 90%;
+  transition: all 1s ease-in-out;
 }
 
 .bar-3 {
@@ -31,5 +35,5 @@
   background-color: yellow;
   width: 100px;
   margin-left: 80px;
-  height: 20%;
+  transition: all 1s ease-in-out;
 }

@@ -88,3 +88,24 @@
   border: 1px solid;
   border-radius: 5px;
 }
+
+.delete-one-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.delete-all-icon {
+  width: 20px;
+  height: 20px;
+  stroke: red;
+}
+.delete-all-btn {
+  position: absolute;
+  top: 495px;
+  left: 617px;
+  background-color: transparent;
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+}

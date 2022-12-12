@@ -1,7 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Graph from "./Graph";
+import { BASE_URL } from "../Api_AUTH";
 
 const Home = () => {
+  const [items, setItems] = useState([]);
+  let total = 0;
+  let savingTotal = 0;
+  let expenseTotal = 0;
+  let investTotal = 0;
+
+  useEffect(() => {
+    fetch(BASE_URL + "api/financetracker")
+      .then((res) => res.json())
+      .then((data) => {
+        setItems(data);
+        console.log("this data", data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  for (let i = 0; i < items.length; i++) {
+    if (items[i].Type === "Savings") {
+      savingTotal = savingTotal + items[i].Amount;
+    } else if (items[i].Type === "Expenses") {
+      expenseTotal = expenseTotal + items[i].Amount;
+    } else {
+      investTotal = investTotal + items[i].Amount;
+    }
+    total = total + items[i].Amount;
+  }
+  console.log("saving: ", savingTotal);
+  console.log("exp: ", expenseTotal);
+  console.log("totalzzzy", total);
+
   return (
     <div>
       <div className="contain">
@@ -31,22 +62,53 @@ const Home = () => {
           </div>
           <div className="card-second-container">
             <h2>History</h2>
-            <p className="history" style={{ borderColor: "#6bffb8" }}>
-              Salary - Savings
-            </p>
-            <br />
-            <p className="history" style={{ borderColor: "#FF6B6B" }}>
-              Car - Expenses
-            </p>
-            <br />
-            <p className="history" style={{ borderColor: "yellow" }}>
-              Stocks - Investment
-            </p>
-            <br />
+
+            <button className="delete-all-btn">Clear</button>
+
+            {items.map((i, index) => (
+              <div className="history-cont" key={index}>
+                <button className="delete-one-btn">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="delete-all-icon"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+                <p
+                  className="history"
+                  style={
+                    i.Type === "Savings"
+                      ? { borderColor: "#6bffb8" }
+                      : i.Type === "Expenses"
+                      ? { borderColor: "#FF6B6B" }
+                      : i.Type === "Investment"
+                      ? { borderColor: "yellow" }
+                      : ""
+                  }
+                >
+                  {i.Name} - {i.Type}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
         <div>
-          <Graph />
+          <Graph
+            data={items}
+            totalAmount={total}
+            savingsAmount={savingTotal}
+            expenseAmount={expenseTotal}
+            investAmount={investTotal}
+          />
         </div>
       </div>
     </div>
