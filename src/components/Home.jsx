@@ -30,6 +30,20 @@ const Home = () => {
     total = total + items[i].Amount;
   }
 
+  const onDelete = (id) => {
+    fetch(BASE_URL + "api/financetracker/" + id, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then((res) => console.log(res))
+      .then(() => {
+        window.location.reload();
+      });
+  };
+
   const clearAll = () => {
     fetch(BASE_URL + "api/financetracker/deleteAll", {
       method: "DELETE",
@@ -81,7 +95,10 @@ const Home = () => {
 
             {items.map((i, index) => (
               <div className="history-cont" key={index}>
-                <button className="delete-one-btn">
+                <button
+                  className="delete-one-btn"
+                  onClick={() => onDelete(i.Id)}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
