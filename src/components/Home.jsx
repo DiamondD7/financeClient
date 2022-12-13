@@ -9,6 +9,7 @@ const Home = () => {
   const [typeTransaction, setTypeTransaction] = useState("");
   const [amountTransaction, setAmountTransaction] = useState(0);
   const [cSVData, setcSVData] = useState([]);
+  const [csvLoaded, setCSVLoaded] = useState(false);
   let total = 0;
   let savingTotal = 0;
   let expenseTotal = 0;
@@ -109,7 +110,7 @@ const Home = () => {
     }
   };
 
-  if (cSVData !== null) {
+  if (cSVData.length > 0) {
     for (let i = 0; i < cSVData.length; i++) {
       fetch(BASE_URL + "api/financetracker/", {
         method: "POST",
@@ -123,12 +124,15 @@ const Home = () => {
           Amount: Math.trunc(cSVData[i].Amount),
         }),
       })
-        .then((res) => console.log(res))
+        .then((res) => res.json())
         .then(() => {
-          window.location.reload();
+          if (i + 1 === cSVData.length) {
+            window.location.reload();
+          }
         });
     }
   }
+
   const handleFileChanged = (e) => {
     setcSVData(e.target.files[0]);
   };
@@ -174,7 +178,7 @@ const Home = () => {
               accept=".csv"
               onChange={handleFileChanged}
             />
-            <button className="btn-confirm" onClick={addData}>
+            <button className="btn-confirm" onClick={() => addData()}>
               Confirm
             </button>
           </div>
