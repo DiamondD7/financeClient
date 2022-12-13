@@ -4,6 +4,9 @@ import { BASE_URL } from "../Api_AUTH";
 
 const Home = () => {
   const [items, setItems] = useState([]);
+  const [nameTransaction, setNameTransaction] = useState("");
+  const [typeTransaction, setTypeTransaction] = useState("");
+  const [amountTransaction, setAmountTransaction] = useState(0);
   let total = 0;
   let savingTotal = 0;
   let expenseTotal = 0;
@@ -59,6 +62,25 @@ const Home = () => {
       });
   };
 
+  const addData = () => {
+    fetch(BASE_URL + "api/financetracker/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        Name: nameTransaction,
+        Type: typeTransaction,
+        Amount: amountTransaction,
+      }),
+    })
+      .then((res) => console.log(res))
+      .then(() => {
+        window.location.reload();
+      });
+  };
+
   return (
     <div>
       <div className="contain">
@@ -69,12 +91,16 @@ const Home = () => {
               type="text"
               placeholder="Transaction Name"
               className="input-name"
+              onChange={(e) => setNameTransaction(e.target.value)}
             />
             <br />
-            <select className="input-type">
+            <select
+              className="input-type"
+              onChange={(e) => setTypeTransaction(e.target.value)}
+            >
               <option></option>
               <option>Investment</option>
-              <option>Expense</option>
+              <option>Expenses</option>
               <option>Savings</option>
             </select>
             <br />
@@ -82,9 +108,14 @@ const Home = () => {
               type="number"
               placeholder="Amount"
               className="input-amount"
+              onChange={(e) => setAmountTransaction(e.target.value)}
             />
             <br />
-            <button className="btn-confirm">Confirm</button>
+            <p className="or-paragraph">Or input a csv file</p>
+            <input className="file-csv" type="file" />
+            <button className="btn-confirm" onClick={addData}>
+              Confirm
+            </button>
           </div>
           <div className="card-second-container">
             <h2>History</h2>

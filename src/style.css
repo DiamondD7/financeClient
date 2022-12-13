@@ -102,10 +102,24 @@
 }
 .delete-all-btn {
   position: absolute;
-  top: 495px;
-  left: 617px;
+  top: 577px;
+  left: 580px;
   background-color: transparent;
   display: inline-block;
   border: none;
   cursor: pointer;
 }
+
+.or-paragraph {
+  margin-top: 20px;
+}
+
+.file-csv {
+  margin: 20px 0 0 0;
+}
+
+/* ------------------------- */
+.percent-label {
+  text-align: center;
+}
+/* ------------------------- */
