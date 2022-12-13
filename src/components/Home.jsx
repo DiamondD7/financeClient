@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
 import Graph from "./Graph";
 import { BASE_URL } from "../Api_AUTH";
+import Papa from "papaparse/papaparse.min";
 
 const Home = () => {
   const [items, setItems] = useState([]);
   const [nameTransaction, setNameTransaction] = useState("");
   const [typeTransaction, setTypeTransaction] = useState("");
   const [amountTransaction, setAmountTransaction] = useState(0);
+  const [cSVData, setcSVData] = useState([]);
   let total = 0;
   let savingTotal = 0;
   let expenseTotal = 0;
   let investTotal = 0;
+  var commonConfig = { delimiter: "," };
 
   useEffect(() => {
     fetch(BASE_URL + "api/financetracker")
@@ -23,13 +26,24 @@ const Home = () => {
   }, []);
 
   for (let i = 0; i < items.length; i++) {
-    if (items[i].Type === "Savings") {
+    if (
+      items[i].Type === "Savings" ||
+      items[i].Type === "CREDIT" ||
+      items[i].Type === "D/C"
+    ) {
       savingTotal = savingTotal + items[i].Amount;
-    } else if (items[i].Type === "Expenses") {
+    } else if (
+      items[i].Type === "Expenses" ||
+      items[i].Type === "DEBIT" ||
+      items[i].Type === "EFTPOS"
+    ) {
       expenseTotal = expenseTotal + items[i].Amount;
-    } else {
+    } else if (items[i].Type === "Investment") {
       investTotal = investTotal + items[i].Amount;
+    } else {
+      expenseTotal = expenseTotal + items[i].Amount;
     }
+
     total = total + items[i].Amount;
   }
 
@@ -63,23 +77,63 @@ const Home = () => {
   };
 
   const addData = () => {
-    fetch(BASE_URL + "api/financetracker/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        Name: nameTransaction,
-        Type: typeTransaction,
-        Amount: amountTransaction,
-      }),
-    })
-      .then((res) => console.log(res))
-      .then(() => {
-        window.location.reload();
+    if (
+      nameTransaction !== "" &&
+      typeTransaction !== "" &&
+      amountTransaction !== 0
+    ) {
+      fetch(BASE_URL + "api/financetracker/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          Name: nameTransaction,
+          Type: typeTransaction,
+          Amount: amountTransaction,
+        }),
+      })
+        .then((res) => console.log(res))
+        .then(() => {
+          window.location.reload();
+        });
+    } else {
+      Papa.parse(cSVData, {
+        ...commonConfig,
+        header: true,
+        complete: (result) => {
+          setcSVData(result.data);
+        },
       });
+    }
   };
+
+  if (cSVData !== null) {
+    for (let i = 0; i < cSVData.length; i++) {
+      fetch(BASE_URL + "api/financetracker/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          Name: cSVData[i].Memo,
+          Type: cSVData[i].Type,
+          Amount: Math.trunc(cSVData[i].Amount),
+        }),
+      })
+        .then((res) => console.log(res))
+        .then(() => {
+          window.location.reload();
+        });
+    }
+  }
+  const handleFileChanged = (e) => {
+    setcSVData(e.target.files[0]);
+  };
+
+  console.log("cvsdata", cSVData);
 
   return (
     <div>
@@ -112,7 +166,14 @@ const Home = () => {
             />
             <br />
             <p className="or-paragraph">Or input a csv file</p>
-            <input className="file-csv" type="file" />
+            <input
+              className="file-csv"
+              type="file"
+              id="cvsfile"
+              name="cvsfile"
+              accept=".csv"
+              onChange={handleFileChanged}
+            />
             <button className="btn-confirm" onClick={addData}>
               Confirm
             </button>
