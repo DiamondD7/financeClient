@@ -9,7 +9,8 @@ const Home = () => {
   const [typeTransaction, setTypeTransaction] = useState("");
   const [amountTransaction, setAmountTransaction] = useState(0);
   const [cSVData, setcSVData] = useState([]);
-  const [csvLoaded, setCSVLoaded] = useState(false);
+  const [largeAmount, setLargeAmount] = useState(0);
+  const [payeeLarge, setPayeeLarge] = useState("");
   let total = 0;
   let savingTotal = 0;
   let expenseTotal = 0;
@@ -137,7 +138,19 @@ const Home = () => {
     setcSVData(e.target.files[0]);
   };
 
-  console.log("cvsdata", cSVData);
+  if (items.length > 0) {
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].Type === "DEBIT" || items[i].Type === "Expenses") {
+        if (items[i].Amount > largeAmount) {
+          setPayeeLarge(items[i].Name);
+          setLargeAmount(items[i].Amount);
+        }
+      }
+    }
+  }
+
+  console.log("largest", largeAmount);
+  console.log("namelarge", payeeLarge);
 
   return (
     <div>
@@ -236,6 +249,23 @@ const Home = () => {
             expenseAmount={expenseTotal}
             investAmount={investTotal}
           />
+          {items.length > 0 ? (
+            <div className="graph-details">
+              <p>Savings: ${savingTotal}</p>
+              <p>Expenses: ${expenseTotal}</p>
+              <br />
+              <p>
+                Biggest expense: ${largeAmount} - {payeeLarge}
+              </p>
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
+        <div className="graph-group-logo">
+          <div className="savings-graph"></div>
+          <div className="expense-graph"></div>
+          <div className="investment-graph"></div>
         </div>
       </div>
     </div>

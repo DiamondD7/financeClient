@@ -123,3 +123,57 @@
   text-align: center;
 }
 /* ------------------------- */
+
+.graph-bar-names {
+  display: flex;
+  justify-content: center;
+}
+
+.graph-details {
+  font-size: 24px;
+  position: absolute;
+  bottom: 280px;
+  left: 850px;
+}
+
+/* ---------------------- */
+
+.savings-graph {
+  background-color: #6bffb8;
+  width: 20px;
+  height: 20px;
+}
+
+.savings-graph::after {
+  content: "Savings";
+  margin-left: 25px;
+}
+
+.expense-graph {
+  background-color: #ff6b6b;
+  width: 20px;
+  height: 20px;
+  margin-top: 10px;
+}
+
+.expense-graph::after {
+  content: "Expenses";
+  margin-left: 25px;
+}
+
+.investment-graph {
+  background-color: yellow;
+  width: 20px;
+  height: 20px;
+
+  margin-top: 10px;
+}
+
+.investment-graph::after {
+  content: "Investment";
+  margin-left: 25px;
+}
+
+.graph-group-logo {
+  margin: 150px 0 0 100px;
+}
